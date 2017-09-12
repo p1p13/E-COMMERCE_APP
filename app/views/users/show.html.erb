@@ -1,0 +1,8 @@
+<% unless @user %>
+  <%= render 'does_not_exist' %>
+<% else %>
+  <p>
+    <strong>HEY <%= @user.email %>,WHAT'S UP</strong> 
+  </p>
+<% end %>
+ 

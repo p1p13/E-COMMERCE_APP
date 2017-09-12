@@ -1,0 +1,25 @@
+<h1>shipping DETAILS</h1>
+ 
+<table>
+  <tr>
+    <th>ADDRESS LINE 1</th>
+    <th>ADDRESS LINE 2</th>
+    <th>ADDRESS LINE 3</th>
+    <th>ZIP</th>
+    <th>COUNTRY</th>
+    <th>STATE</th>
+  </tr>
+ 
+  <% @shipping_details.each do |shipping_detail| %>
+    <tr>
+      <td><%= shipping_detail.address_line1 %></td>
+      <td><%= shipping_detail.address_line2 %></td>
+      <td><%= shipping_detail.address_line3 %></td>
+      <td><%= shipping_detail.zip %></td>
+      <td><%= shipping_detail.country %></td>
+      <td><%= shipping_detail.state %></td>
+      <td><%= link_to 'Show', user_shipping_detail_path(@user, shipping_detail) %></td>
+    </tr>
+  <% end %>
+</table>
+

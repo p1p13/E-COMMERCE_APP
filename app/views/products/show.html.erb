@@ -1,0 +1,32 @@
+<% unless @product %>
+    <h1>Product with this id does not exist</h2>
+<% else %>
+  <p>
+    <strong>Title:</strong>
+    <%= @product.title %>
+  </p>
+  
+  <p>
+    <strong>Description:</strong>
+    <%= @product.description %>
+  </p>
+  
+  <p>
+    <strong>In Stock:</strong>
+    <%= @product.in_stock %>
+  </p>
+  
+  <p>
+    <strong>Cost:</strong>
+    <%= @product.cost %>
+  </p>
+<% end %>
+
+
+
+
+
+
+
+
+
