@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  net_cost: MyString
+  status: MyText
+  transaction_id: MyString
+  tax: MyString
+  payment_mode: MyString
+  user: one
+
+two:
+  net_cost: MyString
+  status: MyText
+  transaction_id: MyString
+  tax: MyString
+  payment_mode: MyString
+  user: two

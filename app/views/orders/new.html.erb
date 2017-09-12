@@ -1,0 +1,31 @@
+<h1>Confirm Your Order</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Quantity</th>
+    <th>Cost</th>
+  </tr>
+  <% net_cost = 0 %>
+  <% params[:status] = "order requested" %>        
+  <% @cart.cart_items.each do |cart_item| %>
+    <tr>
+      <td><%= cart_item.product.title %></td>
+      <td><%= cart_item.quantity %></td>
+      <td><%= cart_item.product.cost %></td>
+      <% net_cost += cart_item.product.cost.to_f %>      
+    </tr>
+  <% end %>
+</table>
+<%= form_with(model: [ @user, @user.orders.build ], local:true) do |f| %>
+  <p>
+    <%= f.label :payment_mode, "Payment Mode" %>
+    <%= f.text_field :payment_mode %>
+  </p>
+  
+  <p>
+    <%= f.submit "Confirm" %>
+  </p>
+<% end %>
+
+

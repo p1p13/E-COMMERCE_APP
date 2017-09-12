@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
 
   before_action :logged_in_user, only: [:edit, :update]
-  before_action :authorized_user,   only: [:edit, :update]
+  before_action only: [:edit, :update] do
+    authorize_user(:id)
+  end
   before_action :check_user, only: [:show]
 
   def new
@@ -24,6 +26,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user = User.find(params[:id]) rescue nil 
   end
 
   def update

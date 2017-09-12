@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     resource :cart do
       resources :cart_items
     end
+    resources :orders do
+      resources :order_items
+    end
   end
   resources :products
   get 'users/new'

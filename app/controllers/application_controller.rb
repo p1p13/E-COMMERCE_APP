@@ -17,8 +17,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-   def authorized_user
-    @user = User.find(params[:user_id]) rescue nil
+   def authorize_user(id = :user_id)
+    @user = User.find(params[id]) rescue nil
     unless current_user?(@user)
       flash[:danger] = "YOU ARE NOT AUTHORIZED FOR THIS ACTION"
       redirect_to(root_url)
