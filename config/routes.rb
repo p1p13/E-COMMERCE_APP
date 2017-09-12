@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   end
   resources :products
   get 'users/new'
+  get 'cart_items/new'
   get  '/signup',  to: 'users#new'
   root 'welcome#index'
   get    '/login',   to: 'sessions#new'

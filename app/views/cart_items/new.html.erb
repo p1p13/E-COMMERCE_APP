@@ -1,0 +1,21 @@
+<%= form_with(model: [ @user, @cart, @cart_item ], local:true) do |f| %>
+<p>
+  <%= f.label :product_id, "Product ID" %>
+  <%= f.text_field :product_id, value: @product.id %>
+</p>
+
+<p>
+  <%= f.label :cost, "Cost" %>
+  <%= f.text_field :cost, value: @product.cost %>
+</p>
+
+
+<p>
+  <%= f.label :quantity, "Number of Items to be added" %>
+  <%= f.text_field :quantity %>
+</p>
+
+<p>
+  <%= f.submit "Add to Cart" %>
+</p>
+<% end %>

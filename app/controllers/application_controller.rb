@@ -24,5 +24,4 @@ class ApplicationController < ActionController::Base
       redirect_to(root_url)
     end 
   end
-
 end

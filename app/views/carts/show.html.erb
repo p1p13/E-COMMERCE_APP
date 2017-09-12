@@ -1,0 +1,18 @@
+<h1>YOUR CART</h1>
+ 
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Quantity</th>
+    <th>Cost</th>
+  </tr>
+ 
+  <% @cart.cart_items.each do |cart_item| %>
+    <tr>
+      <td><%= cart_item.product.title %></td>
+      <td><%= cart_item.quantity %></td>
+      <td><%= cart_item.product.cost %></td>
+    </tr>
+  <% end %>
+</table>
+
