@@ -8,7 +8,7 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @user = User.find(params[:user_id]) 
+    @user = User.find(params[:user_id])
     @order = @user.orders.create(order_params) 
     params[:order_items] = {}
     @cart = @user.cart rescue nil
@@ -24,7 +24,7 @@ class OrdersController < ApplicationController
       @order.update(transaction_id: SecureRandom.hex(10), net_cost: net_cost)
       redirect_to user_order_path(@user, @order)
     else
-      flash[:danger] = @cart_item.errors.full_messages.join(', ')
+      flash.now[:danger] = @order.errors.full_messages.join(', ')
       render 'new'
     end
   end
@@ -35,7 +35,7 @@ class OrdersController < ApplicationController
 
   private
   def order_params
-    params.require(:order).permit(:net_cost, :payment_mode)
+    params.require(:order).permit(:net_cost, :payment_mode, :shipping_details_id)
   end
 
   private

@@ -25,6 +25,10 @@
 <h2>Transaction ID</h2>
 <p><%= @order.transaction_id %><p>
 
+<h2>Shipping Address</h2>
+<p><%= ShippingDetail.find(@order.shipping_details_id).address_line1 %><p>
+
+
 
 
 

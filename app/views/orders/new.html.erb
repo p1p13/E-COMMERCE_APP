@@ -22,7 +22,12 @@
     <%= f.label :payment_mode, "Payment Mode" %>
     <%= f.text_field :payment_mode %>
   </p>
-  
+
+  <p>
+  <%= f.label :shipping_details_id, "Select Shipping Address" %>
+  <%= f.collection_select :shipping_details_id, @user.shipping_details, :id, :address_line1, :prompt => true %>
+  </p>
+
   <p>
     <%= f.submit "Confirm" %>
   </p>
