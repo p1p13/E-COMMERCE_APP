@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
 
-  before_action :logged_in_user, only: [:edit, :update]
+  before_action :logged_in_user, only: [:edit, :update, :show]
   before_action only: [:edit, :update] do
     authorize_user(:id)
   end
-  before_action :check_user, only: [:show]
+  before_action :get_user, only: [:show]
 
   def new
     @user = User.new
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
       login @user
       @user.create_cart
     else
-      #flash[:danger] = @user.errors.full_messages.join(', ')
+      flash.now[:danger] = @user.errors.full_messages.join(', ')
       render 'new'
     end
   end
@@ -33,11 +33,12 @@ class UsersController < ApplicationController
     if @user.update_attributes(update_params)
       redirect_to @user
     else
+      flash.now[:danger] = @user.errors.full_messages.join(', ')
       render 'edit'
     end
   end
 
-  def check_user
+  def get_user
     @user = User.find(params[:id]) rescue nil 
   end
   
@@ -49,7 +50,7 @@ class UsersController < ApplicationController
   end
 
   def update_params
-    params.require(:user).permit(:email, :password, :first_name,  :last_name,
+    params.require(:user).permit(:first_name,  :last_name,
       :permanent_address, :contact_number, :country_code
     )
   end
