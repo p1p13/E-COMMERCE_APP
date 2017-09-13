@@ -10,6 +10,11 @@
     <p><%= link_to "Profile", current_user %></p>
     <p><%= link_to "Logout", logout_path, method: :delete %></p>
     <%= link_to "Settings", edit_user_path(current_user) %>
+    <p>
+      <% if current_user.admin? %>
+         <%= link_to "Add Products", new_product_path %>
+      <% end %>
+    </p>
   <% else %>
     <p><%= link_to "Login", login_path %></p>
     <P>NEW USER ?</p>
