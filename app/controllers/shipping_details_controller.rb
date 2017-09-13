@@ -20,7 +20,7 @@ class ShippingDetailsController < ApplicationController
       flash[:success] = "Shipping Details Added Successfully"
       redirect_to  user_shipping_detail_path(@user, @shipping_detail)
     else
-      flash[:danger] = @shipping_detail.errors.full_messages.join(', ')
+      flash.now[:danger] = @shipping_detail.errors.full_messages.join(', ')
       render 'new'
     end
   end
