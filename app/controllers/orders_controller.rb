@@ -9,6 +9,7 @@ class OrdersController < ApplicationController
 
   def create
     @user = User.find(params[:user_id])
+    #to do: payment method to be added 
     @order = @user.orders.create(order_params) 
     params[:order_items] = {}
     @cart = @user.cart rescue nil
