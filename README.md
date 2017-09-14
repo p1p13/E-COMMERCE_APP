@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # README
 
 This README would normally document whatever steps are necessary to get the
@@ -22,3 +23,7 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+=======
+# E-COMMERCE_APP
+A simple e-commerce app built on ror
+>>>>>>> dea19a15a8fbef659552d940f666472e1b8925cb

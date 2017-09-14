@@ -1,8 +1,12 @@
-<h1>SHIPPING DETAILS </h1>
-
-<p><h2>ADDRESS LINE 1: </h2> <%= @shipping_detail.address_line1 %> </p>
-<p><h2>ADDRESS LINE 2: </h2> <%= @shipping_detail.address_line2 %></p>
-<p><h2>ADDRESS LINE 3: </h2> <%= @shipping_detail.address_line3 %></p>
-<p><h2>ZIP: </h2> <%= @shipping_detail.zip %></p>
-<p><h2>COUNTRY: </h2> <%= @shipping_detail.country %> </p>
-<p><h2>STATE: </h2> <%= @shipping_detail.state %></p>
+<% unless @shipping_detail %>
+  <%= render 'does_not_exist' %>  
+<% else %>
+  <h1>SHIPPING DETAILS </h1>
+  
+  <p><h2>ADDRESS LINE 1: </h2> <%= @shipping_detail.address_line1 %> </p>
+  <p><h2>ADDRESS LINE 2: </h2> <%= @shipping_detail.address_line2 %></p>
+  <p><h2>ADDRESS LINE 3: </h2> <%= @shipping_detail.address_line3 %></p>
+  <p><h2>ZIP: </h2> <%= @shipping_detail.zip %></p>
+  <p><h2>COUNTRY: </h2> <%= @shipping_detail.country %> </p>
+  <p><h2>STATE: </h2> <%= @shipping_detail.state %></p>
+<% end %>

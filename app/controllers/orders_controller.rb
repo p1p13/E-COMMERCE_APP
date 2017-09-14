@@ -14,6 +14,8 @@ class OrdersController < ApplicationController
     @cart = @user.cart rescue nil
     net_cost = 0
     if @order.save
+      #to do: order item creation should be handled by create method of order_items controller
+
       @cart.cart_items.each do |cart_item|
         net_cost += cart_item.product.cost * cart_item.quantity 
         params[:order_items][:product_id] = cart_item.product_id

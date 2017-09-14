@@ -1,4 +1,6 @@
 class CreateCartItems < ActiveRecord::Migration[5.1]
+    #to do:cost should be float or new currency column should be added or any special data type should be used
+
   def change
     create_table :cart_items do |t|
       t.integer :quantity

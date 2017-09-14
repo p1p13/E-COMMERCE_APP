@@ -18,6 +18,7 @@ class UsersController < ApplicationController
 
     if @user.save
       login @user
+      #to do: cart creation should be handled by create method of carts controller
       @user.create_cart
     else
       flash.now[:danger] = @user.errors.full_messages.join(', ')

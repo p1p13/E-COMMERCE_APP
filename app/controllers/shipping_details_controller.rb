@@ -10,7 +10,7 @@ class ShippingDetailsController < ApplicationController
 
   def index
     @user = User.find(params[:user_id]) rescue nil 
-    @shipping_details = ShippingDetail.where(user_id: params[:user_id])
+    @shipping_details = ShippingDetail.where(user_id: params[:user_id]) rescue nil
   end
 
   def create
@@ -26,7 +26,6 @@ class ShippingDetailsController < ApplicationController
   end
 
   def show
-    #@user = User.find(params[:user_id]) rescue nil 
     @shipping_detail = ShippingDetail.find(params[:id]) rescue nil
   end
 

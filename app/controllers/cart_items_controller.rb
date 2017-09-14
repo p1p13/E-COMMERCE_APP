@@ -9,7 +9,9 @@ class CartItemsController < ApplicationController
 
   def create
     @user = current_user rescue nil
+    @product = Product.find(params[:cart_item][:product_id])
     @cart = @user.cart
+    params[:cart_item][:cost] = params[:cart_item][:quantity] * @product.cost.to_f
     @cart_item = @cart.cart_items.create(cart_item_params) 
     if @cart_item.save
       flash[:success] = "Congrats!, Product added to your cart"
