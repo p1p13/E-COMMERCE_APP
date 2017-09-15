@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   get 'welcome/index'
+  get 'edit_profile', to: 'users#edit_profile' 
+  patch 'update_profile', to: 'users#update_profile'
   resource :user do
     resources :shipping_details
   end
