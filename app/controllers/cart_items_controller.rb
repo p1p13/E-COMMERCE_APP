@@ -15,7 +15,7 @@ class CartItemsController < ApplicationController
     @cart_item = @cart.cart_items.create(cart_item_params) 
     if @cart_item.save
       flash[:success] = "Congrats!, Product added to your cart"
-      redirect_to user_cart_path(@user, @cart)
+      redirect_to cart_path(@cart)
     else
       flash[:danger] = @cart_item.errors.full_messages.join(', ')
       render 'new'

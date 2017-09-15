@@ -17,7 +17,7 @@
     </tr>
   <% end %>
 </table>
-<%= form_with(model: [ @user, @user.orders.build ], local:true) do |f| %>
+<%= form_with(model: [ @user.orders.build ], local:true) do |f| %>
   <p>
     <%= f.label :payment_mode, "Payment Mode" %>
     <%= f.text_field :payment_mode %>

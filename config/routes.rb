@@ -1,18 +1,16 @@
 Rails.application.routes.draw do
-  get 'sessions/new'
-
   get 'welcome/index'
-  resources :users do
+  resource :user do
     resources :shipping_details
-    resource :cart do
-      resources :cart_items
-    end
-    resources :orders do
-      resources :order_items
-    end
+  end
+  resource :cart do
+    resources :cart_items
+  end
+
+  resources :orders do
+    resources :order_items
   end
   resources :products
-  get 'users/new'
   get 'cart_items/new'
   get  '/signup',  to: 'users#new'
   root 'welcome#index'
