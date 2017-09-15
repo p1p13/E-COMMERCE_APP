@@ -7,7 +7,7 @@
   </div>
 
   <% if logged_in? %>
-    <p><%= link_to "Profile", current_user %></p>
+    <p><%= link_to "Profile", :controller => :users, :action => :profile  %></p>
     <p><%= link_to "Logout", logout_path, method: :delete %></p>
     <%= link_to "Settings", edit_profile_path(current_user) %>
     <p>

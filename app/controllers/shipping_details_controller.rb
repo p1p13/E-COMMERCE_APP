@@ -8,14 +8,14 @@ class ShippingDetailsController < ApplicationController
   end
 
   def index
-    @shipping_details = ShippingDetail.where(user_id: params[:user_id]) rescue nil
+    @shipping_details = ShippingDetail.where(user_id: session[:user_id]) rescue nil
   end
 
   def create
     @shipping_detail = @user.shipping_details.create(shipping_detail_params)
     if @shipping_detail.save
       flash[:success] = "Shipping Details Added Successfully"
-      redirect_to  user_shipping_detail_path(@user, @shipping_detail)
+      redirect_to  shipping_detail_path(@shipping_detail)
     else
       flash.now[:danger] = @shipping_detail.errors.full_messages.join(', ')
       render 'new'
@@ -34,7 +34,7 @@ class ShippingDetailsController < ApplicationController
     @shipping_detail = ShippingDetail.find(params[:id]) rescue nil
     if @shipping_detail.update_attributes(shipping_detail_params)
       flash[:success] = "Shipping Details Updated Successfully"
-      redirect_to user_shipping_detail_url(@user, @shipping_detail)
+      redirect_to shipping_detail_url(@shipping_detail)
     else
       render 'show'
     end

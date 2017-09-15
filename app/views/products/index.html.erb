@@ -15,7 +15,7 @@
       <td><%= product.in_stock %></td>
       <td><%= product.cost %></td>
       <td><%= link_to 'Show', product_path(product) %></td>
-      <td><%= button_to 'Add to Cart', :controller => :carts, :action => :add_to_cart, method: :post, :product_id => product.id %></td>
+      <td><%= button_to 'Add to Cart', :controller => :carts, :action => :add_to_cart, :product_id => product.id %></td>
     </tr>
   <% end %>
 </table>

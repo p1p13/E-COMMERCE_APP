@@ -18,7 +18,7 @@
       <td><%= shipping_detail.zip %></td>
       <td><%= shipping_detail.country %></td>
       <td><%= shipping_detail.state %></td>
-      <td><%= link_to 'Show', user_shipping_detail_path(@user, shipping_detail) %></td>
+      <td><%= link_to 'Show', shipping_detail_path(shipping_detail) %></td>
     </tr>
   <% end %>
 </table>

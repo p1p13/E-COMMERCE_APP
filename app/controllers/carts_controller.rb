@@ -16,11 +16,17 @@ class CartsController < ApplicationController
     @cart_item = @cart.cart_items.create(cart_item_params) 
     if @cart_item.save
       flash[:success] = "Congrats!, Product added to your cart"
-      redirect_to cart_path(@cart)
+      redirect_to go_to_cart_path
     else
       flash[:danger] = @cart_item.errors.full_messages.join(', ')
       render 'new'
     end
+  end
+
+  def go_to_cart
+    @user = User.find(session[:user_id])
+    @cart = @user.cart
+    render 'show'
   end
 
    private

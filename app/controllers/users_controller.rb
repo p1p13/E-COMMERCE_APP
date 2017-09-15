@@ -1,11 +1,15 @@
 class UsersController < ApplicationController
 
-  before_action :logged_in_user, only: [:edit, :update, :show]
-  before_action :get_user, only: [:show, :edit, :update, :edit_profile, :update_profile]
+  before_action :logged_in_user, only: [:edit, :update, :show, :edit_profile, :update_profile, :profile]
+  before_action :is_admin?, only: [:edit, :update, :show] 
+
+
+  before_action :get_user, only: [:show, :edit, :update, :edit_profile, :update_profile, :profile]
 
   def new
     @user = User.new
   end
+
 
   def show
   end
@@ -26,12 +30,16 @@ class UsersController < ApplicationController
   def edit
   end
 
+  def profile
+    render 'show'
+  end
+
   def edit_profile
   end
 
   def update_profile
     if @user.update_attributes(update_params)
-      redirect_to @user
+      redirect_to '/user'
     else
       flash.now[:danger] = @user.errors.full_messages.join(', ')
       render 'edit_profile'
