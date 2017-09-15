@@ -3,8 +3,8 @@ require 'securerandom'
 class OrdersController < ApplicationController
 
   def new
-    @cart = Cart.find(params[:cart_id]) rescue nil
     @user = User.find(session[:user_id]) rescue nil
+    @cart =@user.cart
   end
 
   def create

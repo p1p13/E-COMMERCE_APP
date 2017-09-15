@@ -3,15 +3,12 @@ Rails.application.routes.draw do
   resource :user do
     resources :shipping_details
   end
-  resource :cart do
-    resources :cart_items
-  end
-
+  resource :cart 
   resources :orders do
     resources :order_items
   end
-  resources :products
-  get 'cart_items/new'
+  resources :products 
+  post 'carts/add_to_cart'
   get  '/signup',  to: 'users#new'
   root 'welcome#index'
   get    '/login',   to: 'sessions#new'

@@ -7,4 +7,26 @@ class CartsController < ApplicationController
     @cart = @user.cart
   end
 
+  def add_to_cart
+    @user = current_user rescue nil
+    @cart = @user.cart
+    @product = Product.find(params[:product_id])
+    params[:cost] = @product.cost
+    params[:quantity] = 1
+    @cart_item = @cart.cart_items.create(cart_item_params) 
+    if @cart_item.save
+      flash[:success] = "Congrats!, Product added to your cart"
+      redirect_to cart_path(@cart)
+    else
+      flash[:danger] = @cart_item.errors.full_messages.join(', ')
+      render 'new'
+    end
+  end
+
+   private
+  def cart_item_params
+    params.permit(:quantity, :product_id, :cost)
+  end
+
+
 end
