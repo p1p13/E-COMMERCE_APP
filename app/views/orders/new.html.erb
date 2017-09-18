@@ -6,18 +6,15 @@
     <th>Quantity</th>
     <th>Cost</th>
   </tr>
-  <% net_cost = 0 %>
-  <% params[:status] = "order requested" %>        
-  <% @cart.cart_items.each do |cart_item| %>
+  <% current_user.cart.cart_items.each do |cart_item| %>
     <tr>
       <td><%= cart_item.product.title %></td>
       <td><%= cart_item.quantity %></td>
-      <td><%= cart_item.product.cost %></td>
-      <% net_cost += cart_item.product.cost.to_f %>      
+      <td><%= cart_item.product.cost * cart_item.quantity %></td>
     </tr>
   <% end %>
 </table>
-<%= form_with(model: [ @user.orders.build ], local:true) do |f| %>
+<%= form_with(model: [ current_user.orders.build ], local:true) do |f| %>
   <p>
     <%= f.label :payment_mode, "Payment Mode" %>
     <%= f.text_field :payment_mode %>
@@ -25,7 +22,7 @@
 
   <p>
   <%= f.label :shipping_details_id, "Select Shipping Address" %>
-  <%= f.collection_select :shipping_details_id, @user.shipping_details, :id, :address_line1, :prompt => true %>
+  <%= f.collection_select :shipping_details_id, current_user.shipping_details, :id, :address_line1, :prompt => true %>
   </p>
 
   <p>

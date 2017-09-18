@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
   <div id="flash_messages">
-    <% flash.each do |key, value| %>
-      <%= content_tag(:div, value, :class => "flash #{key}") %>
+    <% flash.each do |key, message| %>
+      <%= content_tag(:div, message, :class => "flash #{key}") %>
     <% end %>
   </div>
 
   <% if logged_in? %>
-    <p><%= link_to "Profile", :controller => :users, :action => :profile  %></p>
     <p><%= link_to "Logout", logout_sessions_path, method: :delete %></p>
     <%= link_to "Settings", edit_profile_users_path(current_user) %>
     <p>
@@ -30,7 +29,6 @@
   <head>
     <title>ECommerce</title>
     <%= csrf_meta_tags %>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>

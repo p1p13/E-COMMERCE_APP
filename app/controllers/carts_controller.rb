@@ -1,15 +1,8 @@
 class CartsController < ApplicationController
-  def new
-  end
 
-  def show
-    @user = current_user rescue nil
-    @cart = @user.cart
-  end
+  before_action :get_cart  
 
   def add_to_cart
-    @user = current_user rescue nil
-    @cart = @user.cart
     @product = Product.find(params[:product_id])
     params[:cost] = @product.cost
     params[:quantity] = 1
@@ -24,15 +17,23 @@ class CartsController < ApplicationController
   end
 
   def go_to_cart
-    @user = User.find(session[:user_id])
-    @cart = @user.cart
     render 'show'
   end
 
-   private
+  def update_quantity
+    cart_item = CartItem.find(params[:format])
+    unless cart_item.update_attributes(params.require(:cart_item).permit(:quantity))
+      flash.now[:danger] = @cart_item.errors.full_messages.join(', ')
+    end
+    render 'show'
+  end
+
+  private
+  def get_cart
+    @cart = current_user.cart
+  end
+
   def cart_item_params
     params.permit(:quantity, :product_id, :cost)
   end
-
-
 end

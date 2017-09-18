@@ -1,25 +1,19 @@
 class UsersController < ApplicationController
 
-  before_action :logged_in_user, only: [:edit, :update, :show, :edit_profile, :update_profile, :profile]
-  before_action :is_admin?, only: [:edit, :update, :show] 
-
-
-  before_action :get_user, only: [:edit, :update, :edit_profile, :update_profile, :profile, :show]
+  before_action :is_admin, only: [:edit, :update, :show] 
+  before_action :get_user, except: [:new, :create]
 
   def new
     @user = User.new
   end
-
 
   def show
   end
 
   def create
     @user = User.new(user_params)
-
     if @user.save
       login @user
-      #to do: cart creation should be handled by create method of carts controller
       @user.create_cart
     else
       flash.now[:danger] = @user.errors.full_messages.join(', ')
@@ -30,32 +24,25 @@ class UsersController < ApplicationController
   def edit
   end
 
-  def profile
-    render 'show'
-  end
-
   def edit_profile
   end
 
   def update_profile
     if @user.update_attributes(update_params)
-      redirect_to profile_users_path
+      redirect_to root_url
     else
       flash.now[:danger] = @user.errors.full_messages.join(', ')
-      render 'users/edit_profile'
+      render 'edit_profile'
     end
   end
-
 
   def update
   end
 
-  def get_user
-    @user = User.find(session[:user_id]) rescue nil 
-  end
-  
   private
-
+  def get_user
+    @user = current_user
+  end
 
   def user_params
     params.require(:user).permit(:email, :password)
