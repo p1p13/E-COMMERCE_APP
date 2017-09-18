@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :is_admin?, only: [:edit, :update, :show] 
 
 
-  before_action :get_user, only: [:show, :edit, :update, :edit_profile, :update_profile, :profile]
+  before_action :get_user, only: [:edit, :update, :edit_profile, :update_profile, :profile, :show]
 
   def new
     @user = User.new
@@ -39,10 +39,10 @@ class UsersController < ApplicationController
 
   def update_profile
     if @user.update_attributes(update_params)
-      redirect_to '/user'
+      redirect_to profile_users_path
     else
       flash.now[:danger] = @user.errors.full_messages.join(', ')
-      render 'edit_profile'
+      render 'users/edit_profile'
     end
   end
 

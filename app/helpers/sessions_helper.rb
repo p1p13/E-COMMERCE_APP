@@ -1,7 +1,7 @@
 module SessionsHelper
   def login(user)
     session[:user_id] = user.id
-    redirect_to '/user'
+    redirect_to profile_users_path
   end
 
   def current_user

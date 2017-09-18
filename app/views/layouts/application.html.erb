@@ -8,17 +8,17 @@
 
   <% if logged_in? %>
     <p><%= link_to "Profile", :controller => :users, :action => :profile  %></p>
-    <p><%= link_to "Logout", logout_path, method: :delete %></p>
-    <%= link_to "Settings", edit_profile_path(current_user) %>
+    <p><%= link_to "Logout", logout_sessions_path, method: :delete %></p>
+    <%= link_to "Settings", edit_profile_users_path(current_user) %>
     <p>
       <% if current_user.admin? %>
          <%= link_to "Add Products", new_product_path %>
       <% end %>
     </p>
   <% else %>
-    <p><%= link_to "Login", login_path %></p>
+    <p><%= link_to "Login", login_sessions_path %></p>
     <P>NEW USER ?</p>
-    <%= link_to "Sign up now!", signup_path %>
+    <%= link_to "Sign up now!", signup_users_path %>
   <% end %>
 
   <p>
