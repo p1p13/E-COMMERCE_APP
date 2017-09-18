@@ -3,25 +3,22 @@ require 'securerandom'
 class OrdersController < ApplicationController
 
   def new
-    @user = User.find(session[:user_id]) rescue nil
-    @cart =@user.cart
   end
 
   def create
-    @user = User.find(session[:user_id])
-    #to do: payment method to be added 
-    @order = @user.orders.create(order_params) 
+    @order = current_user.orders.create(order_params) 
     params[:order_items] = {}
-    @cart = @user.cart rescue nil
+    @cart = current_user.cart 
     net_cost = 0
-    if @order.save
-      #to do: order item creation should be handled by create method of order_items controller
-
+    if @order.save      
       @cart.cart_items.each do |cart_item|
-        net_cost += cart_item.product.cost * (cart_item.quantity || 0) 
+        net_cost += cart_item.product.cost * (cart_item.quantity) 
         params[:order_items][:product_id] = cart_item.product_id
         params[:order_items][:quantity] = cart_item.quantity
         cart_item.destroy
+        product = Product.find(cart_item.product_id)
+        product.in_stock -= 1
+        product.save
         @order_item = @order.order_items.create(order_item_params)
       end
       @order.update(transaction_id: SecureRandom.hex(10), net_cost: net_cost)
@@ -33,7 +30,7 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = Order.last
+    @order = Order.find_by(user_id: session[:user_id])
   end
 
   private

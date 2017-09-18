@@ -3,19 +3,26 @@
 <table>
   <tr>
     <th>Title</th>
-    <th>Quantity</th>
     <th>Cost</th>
+    <th>Quantity</th>
+
   </tr>
  
-  <% @cart.cart_items.each do |cart_item| %>
+  <% current_user.cart.cart_items.each do |cart_item| %>
     <tr>
       <td><%= cart_item.product.title %></td>
-      <td><%= cart_item.quantity %></td>
-      <td><%= cart_item.product.cost %></td>
+      <td><%= cart_item.cost %></td>
+      <%= form_with scope: :cart_item, url: update_quantity_cart_index_path(cart_item), method: :patch do |form| %>
+      <td>
+        <%= form.number_field :quantity, value: 1 %>
+      </td>
+      <td>
+        <%= form.submit "Update" %>
+      </td> 
+      <% end %>   
     </tr>
   <% end %>
 </table>
 
 <p><%= link_to 'Checkout', :controller => :orders, :action => :new %></p>
-
 

@@ -1,0 +1,23 @@
+<%= form_with model:[@product], local: true do |form| %>
+  <p>
+    <%= form.label :title, "Title" %><br>
+    <%= form.text_field :title %>
+  </p>
+ 
+  <p>
+    <%= form.label :description, "DESCRIPTION" %><br>
+    <%= form.text_area :description %>
+  </p>
+  <p>
+    <%= form.label :in_stock, "In Stock" %><br>
+    <%= form.text_field :in_stock %>
+  </p>
+  <p>
+    <%= form.label :cost, "Cost" %><br>
+    <%= form.text_field :cost %>
+  </p>
+ 
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>

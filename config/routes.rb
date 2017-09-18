@@ -4,17 +4,17 @@ Rails.application.routes.draw do
   resources :users do
     collection do
       get '/edit_profile', to: 'users#edit_profile' 
-      get  '/profile',  to: 'users#profile'
       patch '/update_profile', to: 'users#update_profile'
       get  '/signup',  to: 'users#new'
 
     end
   end
   resources :shipping_details
-  resources :cart do
+  resources :cart, only: [] do
     collection do
        get '/go_to_cart',  to: 'carts#go_to_cart'
        post '/add_to_cart', to: 'carts#add_to_cart'
+       patch '/update_quantity', to: 'carts#update_quantity'
     end
   end
   resources :orders
