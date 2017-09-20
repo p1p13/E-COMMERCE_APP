@@ -16,7 +16,7 @@ class OrdersController < ApplicationController
             count += 1
             net_cost += cart_item.cost 
             cart_item.destroy!
-            product = Product.find(cart_item.product_id)
+            product = cart_item.product
             stock_left = product.in_stock - cart_item.quantity
             product.update_attributes!(in_stock: stock_left)
             order_item_params = { product_id: cart_item.product_id, quantity: cart_item.quantity }
@@ -37,7 +37,7 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = Order.where(user_id: session[:user_id]).last
+    @order = current_user.orders.last
   end
 
   private

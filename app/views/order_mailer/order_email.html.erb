@@ -16,6 +16,8 @@
         <tr>
           <td><%= order_item.product.title %></td>
           <td><%= order_item.quantity %></td>
+          <td><%= order_item.product.cost * order_item.quantity %></td>
+
         </tr>
       <% end %>
     </table>

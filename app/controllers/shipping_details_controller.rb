@@ -7,7 +7,7 @@ class ShippingDetailsController < ApplicationController
   end
 
   def index
-    @shipping_details = ShippingDetail.where(user_id: session[:user_id]) rescue nil
+    @shipping_details = current_user.shipping_details
   end
 
   def create
