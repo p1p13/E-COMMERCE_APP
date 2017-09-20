@@ -15,6 +15,7 @@ Rails.application.routes.draw do
        get '/go_to_cart',  to: 'carts#go_to_cart'
        post '/add_to_cart', to: 'carts#add_to_cart'
        patch '/update_quantity', to: 'carts#update_quantity'
+       post '/remove_cart_item', to: 'carts#remove_cart_item'
     end
   end
   resources :orders

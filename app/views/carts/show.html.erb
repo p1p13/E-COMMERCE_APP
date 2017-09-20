@@ -8,18 +8,18 @@
 
   </tr>
  
-  <% current_user.cart.cart_items.each do |cart_item| %>
+  <% @cart_items.each do |cart_item| %>
     <tr>
       <td><%= cart_item.product.title %></td>
       <td><%= cart_item.cost %></td>
-      <%= form_with scope: :cart_item, url: update_quantity_cart_index_path(cart_item), method: :patch do |form| %>
+      <%= form_with scope: :cart_item, url: update_quantity_cart_index_path(cart_item_id: cart_item.id), method: :patch, local: true do |form| %>
       <td>
-        <%= form.number_field :quantity, value: 1 %>
+        <%= form.number_field :quantity, value: cart_item.quantity %>
       </td>
+      <% end %>  
       <td>
-        <%= form.submit "Update" %>
-      </td> 
-      <% end %>   
+        <%= button_to 'Delete', remove_cart_item_cart_index_path(cart_item_id: cart_item.id) %>
+      </td>
     </tr>
   <% end %>
 </table>
