@@ -27,7 +27,7 @@ class OrdersController < ApplicationController
           end
           @order.update_attributes!(transaction_id: SecureRandom.hex(10), net_cost: net_cost, status: "Order Recieved")
           redirect_to order_path(@order)
-          OrderMailer.order_email(current_user, @order).deliver_later
+          OrderMailer.order_email(@order).deliver_later
         end 
       end
     rescue Exception => e
