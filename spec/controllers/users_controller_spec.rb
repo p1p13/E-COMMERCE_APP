@@ -10,10 +10,13 @@ RSpec.describe UsersController do
 
   describe "POST #create" do
     context "with valid attributes" do
-      it "creates a new user" do
+      it "creates a new user and doesn't create duplicate user" do
         expect{
           post :create, params: { user: FactoryGirl.attributes_for(:user) }
         }.to change(User,:count).by(1)
+        expect{
+          post :create, params: { user: FactoryGirl.attributes_for(:user) }
+        }.to_not change(User,:count)
       end
 
       it "redirects to profile page" do
