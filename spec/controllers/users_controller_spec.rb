@@ -34,6 +34,26 @@ RSpec.describe UsersController do
         response.should render_template :new
       end
     end
-
   end
+
+  describe "GET #edit_profile" do
+    before(:each) do
+      post :create, params: { user: FactoryGirl.attributes_for(:user) }
+    end
+    it "renders the edit_profile view " do
+      get :edit_profile
+      response.should render_template :edit_profile
+    end
+  end
+
+  describe "POST #update_profile" do
+    before(:each) do
+      post :create, params: { user: FactoryGirl.attributes_for(:user) }
+    end
+    it "renders the update_profile view " do
+      post :update_profile, params: { user: FactoryGirl.attributes_for(:valid_user) }
+      response.should redirect_to root_url
+    end
+  end
+
 end
