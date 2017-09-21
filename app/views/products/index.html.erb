@@ -5,6 +5,7 @@
     <th>Description</th>
     <th>In Stock</th>
     <th>Cost</th>
+    <th>Image</th>
   </tr>
   <% @products.each do |product| %>
     <tr>
@@ -12,6 +13,7 @@
       <td><%= product.description %></td>
       <td><%= product.in_stock %></td>
       <td><%= product.cost %></td>
+      <td><%= image_tag product.image.url %></td>
       <td><%= link_to 'Show', product_path(product) %></td>
       <% if logged_in? && product.in_stock>0 %>
         <td><%= button_to 'Add to Cart', add_to_cart_cart_index_path(product_id: product.id) %></td>
