@@ -49,12 +49,12 @@ RSpec.describe UsersController do
     end
   end
 
-  describe "POST #update_profile" do
+  describe "PATCH #update_profile" do
     before(:each) do
       post :create, params: { user: FactoryGirl.attributes_for(:user) }
     end
     it "renders the update_profile view " do
-      post :update_profile, params: { user: FactoryGirl.attributes_for(:valid_user) }
+      patch :update_profile, params: { user: FactoryGirl.attributes_for(:valid_user) }
       response.should redirect_to root_url
     end
   end
