@@ -44,13 +44,15 @@ class UsersController < ApplicationController
 
   def destroy
     user = User.find(params[:id]) rescue nil
-    if user.destroy
-      flash.now[:success] = "user removed"
-    else
-      flash.now[:danger] = user.errors.full_messages.join(', ')
-    end
     @users = User.all
-    render 'index'
+    if user.nil?
+      flash[:error] = "No user found"
+    elsif user.destroy
+      flash[:success] = "user removed"
+    else
+      flash[:danger] = user.errors.full_messages.join(', ')
+    end
+    redirect_to users_path
   end
 
   private
