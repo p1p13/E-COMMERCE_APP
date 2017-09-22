@@ -80,7 +80,18 @@ RSpec.describe UsersController do
       get:index
       assigns(:users).should eq(User.all)  
     end
+  end
 
+  describe "DELETE #destroy" do
+    before(:each) do
+      post :create, params: { user: FactoryGirl.attributes_for(:user) }
+      User.last.toggle!(:admin)
+    end
+    it "allows the admin to delete users" do
+      expect{
+        delete :destroy, params: {id: User.first.id}
+      }.to change(User, :count).by(-1)
+    end
   end
 
 end

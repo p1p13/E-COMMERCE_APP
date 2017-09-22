@@ -6,7 +6,7 @@ git_source(:github) do |repo_name|
 end
 #for testing
 group :development, :test do
-  gem 'rspec-rails', '~> 3.6'
+  gem 'rspec-rails'
   gem 'factory_girl_rails'
 end 
 
