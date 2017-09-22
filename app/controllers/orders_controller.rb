@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = current_user.orders.create(order_params) 
+    @order = current_user.orders.new(order_params) 
     @cart = current_user.cart 
     net_cost = 0
     begin

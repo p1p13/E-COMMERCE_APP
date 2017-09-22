@@ -1,6 +1,9 @@
 require 'rails_helper'  
-require 'factory_girl_rails'
 RSpec.describe UsersController do
+  before(:each) do
+    post :create, params: { user: FactoryGirl.attributes_for(:dummy_user1) }
+    post :create, params: { user: FactoryGirl.attributes_for(:dummy_user2) }
+  end
   describe "GET #new" do
     it "renders the new view  " do
       get :new
@@ -53,10 +56,31 @@ RSpec.describe UsersController do
     before(:each) do
       post :create, params: { user: FactoryGirl.attributes_for(:user) }
     end
-    it "renders the update_profile view " do
+    it "redirects to root url" do
       patch :update_profile, params: { user: FactoryGirl.attributes_for(:valid_user) }
       response.should redirect_to root_url
     end
+  end
+
+  describe "GET #index" do
+    before(:each) do
+      post :create, params: { user: FactoryGirl.attributes_for(:user) }
+    end
+    it "should redirect to root for non-admin" do
+      get :index
+      response.should redirect_to :root
+    end
+    it "renders the index view for admin" do
+      User.last.toggle!(:admin)
+      get :index
+      response.should render_template :index
+    end
+    it "gives list of all users in database for admin" do
+      User.last.toggle!(:admin)
+      get:index
+      assigns(:users).should eq(User.all)  
+    end
+
   end
 
 end

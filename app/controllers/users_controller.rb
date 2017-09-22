@@ -1,11 +1,15 @@
 class UsersController < ApplicationController
 
   skip_before_action :logged_in_user, only: [:new, :create]
-  before_action :admin?, only: [:edit, :update, :index] 
+  before_action :admin?, only: [:edit, :update, :index, :show] 
   before_action :get_user, except: [:new, :create]
 
   def new
     @user = User.new
+  end
+
+  def show
+    @user = User.find(params[:id]) rescue nil
   end
 
   def index
@@ -39,7 +43,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    user = User.find(params[:id])
+    user = User.find(params[:id]) rescue nil
     if user.destroy
       flash.now[:success] = "user removed"
     else
