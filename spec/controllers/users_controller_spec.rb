@@ -43,19 +43,27 @@ RSpec.describe UsersController do
   end
 
   describe "GET #edit_profile" do
-    before(:each) do
-      post :create, params: { user: FactoryGirl.attributes_for(:user) }
-    end
     it "renders the edit_profile view " do
       get :edit_profile
       response.should render_template :edit_profile
     end
   end
 
-  describe "PATCH #update_profile" do
+  describe "GET #show" do
     before(:each) do
-      post :create, params: { user: FactoryGirl.attributes_for(:user) }
+      User.last.toggle!(:admin)
     end
+    it "allows admin to render the show view" do
+      get :show, params: {id: User.first.id}
+      response.should render_template :show
+    end
+    it "assigns the user in context to @user" do
+      get :show, params: {id: User.first.id}
+      assigns(:user).should eq(User.first)  
+    end
+  end
+
+  describe "PATCH #update_profile" do
     it "redirects to root url" do
       patch :update_profile, params: { user: FactoryGirl.attributes_for(:valid_user) }
       response.should redirect_to root_url
@@ -63,9 +71,6 @@ RSpec.describe UsersController do
   end
 
   describe "GET #index" do
-    before(:each) do
-      post :create, params: { user: FactoryGirl.attributes_for(:user) }
-    end
     it "should redirect to root for non-admin" do
       get :index
       response.should redirect_to :root
@@ -74,17 +79,16 @@ RSpec.describe UsersController do
       User.last.toggle!(:admin)
       get :index
       response.should render_template :index
-    end
+    end 
     it "gives list of all users in database for admin" do
       User.last.toggle!(:admin)
-      get:index
+      get :index
       assigns(:users).should eq(User.all)  
     end
   end
 
   describe "DELETE #destroy" do
     before(:each) do
-      post :create, params: { user: FactoryGirl.attributes_for(:user) }
       User.last.toggle!(:admin)
     end
     it "allows the admin to delete users" do
