@@ -1,17 +1,19 @@
 require 'rails_helper'  
 RSpec.describe UsersController do
-  before(:each) do
-    post :create, params: { user: FactoryGirl.attributes_for(:dummy_user1) }
-    post :create, params: { user: FactoryGirl.attributes_for(:dummy_user2) }
+  before(:each) do |example|
+    unless example.metadata[:skip_before]
+      post :create, params: { user: FactoryGirl.attributes_for(:dummy_user1) }
+      post :create, params: { user: FactoryGirl.attributes_for(:dummy_user2) }
+    end
   end
-  describe "GET #new" do
+  describe "GET #new", :skip_before  do
     it "renders the new view  " do
       get :new
       response.should render_template :new
     end
   end
 
-  describe "POST #create" do
+  describe "POST #create" , :skip_before do
     context "with valid attributes" do
       it "creates a new user and doesn't create duplicate user" do
         expect{
