@@ -28,7 +28,9 @@ class ShippingDetailsController < ApplicationController
   end
 
   def update
-    if @shipping_detail.update_attributes(shipping_detail_params)
+    if @shipping_detail.nil?
+      render 'edit'
+    elsif @shipping_detail.update_attributes(shipping_detail_params)
       flash[:success] = "Shipping Details Updated Successfully"
       redirect_to shipping_detail_url(@shipping_detail)
     else
@@ -41,6 +43,9 @@ class ShippingDetailsController < ApplicationController
 
   def get_shipping_details
     @shipping_detail = ShippingDetail.find(params[:id]) rescue nil
+    if @shipping_detail.user != current_user
+      @shipping_detail = nil
+    end
   end
 
   def shipping_detail_params

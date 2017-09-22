@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :shipping_details
   resources :cart, only: [] do
     collection do
-       get '/go_to_cart',  to: 'carts#go_to_cart'
+       get '/your_cart',  to: 'carts#your_cart'
        post '/add_to_cart', to: 'carts#add_to_cart'
        patch '/update_quantity', to: 'carts#update_quantity'
        post '/remove_cart_item', to: 'carts#remove_cart_item'

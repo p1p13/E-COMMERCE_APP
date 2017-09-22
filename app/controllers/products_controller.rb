@@ -2,10 +2,10 @@ class ProductsController < ApplicationController
 
   before_action :admin?, only: [:new, :create] 
   skip_before_action :logged_in_user, only: [:show, :index]
-
+  before_action :get_product, only: [:show, :edit, :update, :destroy]
 
   def new
-    @product =Product.new
+    @product = Product.new
   end
 
   def index
@@ -13,7 +13,6 @@ class ProductsController < ApplicationController
   end
 
   def show  
-    @product = Product.find(params[:id]) rescue nil
   end
 
   def create
@@ -28,12 +27,12 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    @product = Product.find(params[:id]) rescue nil
   end
 
   def update
-    @product = Product.find(params[:id]) rescue nil
-    if @product.update_attributes(product_params)
+    if @product.nil?
+      redirect_to @product
+    elsif @product.update_attributes(product_params)
       flash[:success]  = "Product Updated"
       redirect_to @product
     else
@@ -43,18 +42,25 @@ class ProductsController < ApplicationController
   end
 
   def destroy
-    product = Product.find(params[:id])
-    if product.destroy
-      flash.now[:success] = "product removed"
-    else
-      flash.now[:danger] = product.errors.full_messages.join(', ')
-    end
     @products = Product.all
-    render 'index'
+    if @product.nil?
+      flash[:error] = "product does not exist"
+    elsif @product.destroy
+      flash[:success] = "product removed"
+    else
+      flash[:danger] = product.errors.full_messages.join(', ')
+    end
+    redirect_to products_path
+
   end
 
   private
+
+  def get_product
+    @product = Product.find(params[:id]) rescue nil
+  end
+
   def product_params
-    params.require(:product).permit(:title, :description, :in_stock, :cost)
+    params.require(:product).permit(:title, :description, :in_stock, :cost, :image)
   end
 end

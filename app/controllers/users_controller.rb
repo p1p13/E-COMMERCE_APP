@@ -1,11 +1,19 @@
 class UsersController < ApplicationController
 
   skip_before_action :logged_in_user, only: [:new, :create]
-  before_action :is_admin, only: [:edit, :update, :show] 
+  before_action :admin?, only: [:edit, :update, :index, :show] 
   before_action :get_user, except: [:new, :create]
 
   def new
     @user = User.new
+  end
+
+  def show
+    @user = User.find(params[:id]) rescue nil
+  end
+
+  def index
+    @users = User.all
   end
 
   def create
@@ -32,6 +40,19 @@ class UsersController < ApplicationController
       flash.now[:danger] = @user.errors.full_messages.join(', ')
       render 'edit_profile'
     end
+  end
+
+  def destroy
+    user = User.find(params[:id]) rescue nil
+    @users = User.all
+    if user.nil?
+      flash[:error] = "No user found"
+    elsif user.destroy
+      flash[:success] = "user removed"
+    else
+      flash[:danger] = user.errors.full_messages.join(', ')
+    end
+    redirect_to users_path
   end
 
   private

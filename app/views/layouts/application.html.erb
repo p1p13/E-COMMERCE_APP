@@ -9,7 +9,7 @@
   <% if logged_in? %>
     <h2><%= "Hey,#{current_user.email}" %></h2>
     <p><%= link_to "Logout", logout_sessions_path, method: :delete %></p>
-    <%= link_to "Settings", edit_profile_users_path(current_user) %>
+    <%= link_to "Settings", edit_profile_users_path %>
     <p>
       <% if current_user.admin? %>
          <%= link_to "Add Products", new_product_path %>
