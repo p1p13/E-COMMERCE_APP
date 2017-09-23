@@ -1,24 +1,20 @@
 class ShippingDetailsController < ApplicationController
 
-   before_action :logged_in_user
-   before_action :authorize_user
+  before_action :get_shipping_details, only:[:show, :edit, :update]
 
   def new
-    @user = User.find(params[:user_id]) rescue nil 
-    @shipping_detail = @user.shipping_details.build
+    @shipping_detail = current_user.shipping_details.build
   end
 
   def index
-    @user = User.find(params[:user_id]) rescue nil 
-    @shipping_details = ShippingDetail.where(user_id: params[:user_id]) rescue nil
+    @shipping_details = current_user.shipping_details
   end
 
   def create
-    @user = User.find(params[:user_id]) rescue nil 
-    @shipping_detail = @user.shipping_details.create(shipping_detail_params)
+    @shipping_detail = current_user.shipping_details.create(shipping_detail_params)
     if @shipping_detail.save
       flash[:success] = "Shipping Details Added Successfully"
-      redirect_to  user_shipping_detail_path(@user, @shipping_detail)
+      redirect_to  shipping_detail_path(@shipping_detail)
     else
       flash.now[:danger] = @shipping_detail.errors.full_messages.join(', ')
       render 'new'
@@ -26,29 +22,28 @@ class ShippingDetailsController < ApplicationController
   end
 
   def show
-    @shipping_detail = ShippingDetail.find(params[:id]) rescue nil
   end
 
   def edit
-    @user = User.find(params[:user_id]) rescue nil 
-    @shipping_detail = ShippingDetail.find(params[:id]) rescue nil
   end
 
   def update
-    @shipping_detail = ShippingDetail.find(params[:id]) rescue nil
-    @user = User.find(params[:user_id]) rescue nil 
     if @shipping_detail.update_attributes(shipping_detail_params)
       flash[:success] = "Shipping Details Updated Successfully"
-      redirect_to user_shipping_detail_url(@user, @shipping_detail)
+      redirect_to shipping_detail_url(@shipping_detail)
     else
-      render 'show'
+      flash.now[:danger] = @shipping_detail.errors.full_messages.join(', ')
+      render 'edit'
     end
   end
 
-
   private
+
+  def get_shipping_details
+    @shipping_detail = ShippingDetail.find(params[:id]) rescue nil
+  end
+
   def shipping_detail_params
     params.require(:shipping_detail).permit(:address_line1, :address_line2, :address_line3, :zip, :country, :state)
   end
-
 end

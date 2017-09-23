@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170913085312) do
+ActiveRecord::Schema.define(version: 20170915045809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "cart_items", force: :cascade do |t|
     t.integer "quantity"
-    t.string "cost"
     t.bigint "cart_id"
     t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "cost"
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
     t.index ["product_id"], name: "index_cart_items_on_product_id"
   end
@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(version: 20170913085312) do
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.string "integer"
     t.bigint "order_id"
     t.bigint "product_id"
     t.datetime "created_at", null: false
@@ -45,7 +44,6 @@ ActiveRecord::Schema.define(version: 20170913085312) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string "net_cost"
     t.text "status"
     t.string "transaction_id"
     t.string "tax"
@@ -54,6 +52,7 @@ ActiveRecord::Schema.define(version: 20170913085312) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "shipping_details_id"
+    t.float "net_cost"
     t.index ["shipping_details_id"], name: "index_orders_on_shipping_details_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Your Order Recieved</h1>
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Quantity</th>
+        <th>Cost</th>
+      </tr>
+     
+      <% @order.order_items.each do |order_item| %>
+        <tr>
+          <td><%= order_item.product.title %></td>
+          <td><%= order_item.quantity %></td>
+          <td><%= order_item.product.cost * order_item.quantity %></td>
+
+        </tr>
+      <% end %>
+    </table>
+    
+    <h2>Net Cost</h2>
+    <p><%= @order.net_cost %><p>
+    
+    <h2>Status</h2>
+    <p><%= @order.status %><p>
+    
+    <h2>Payment Mode</h2>
+    <p><%= @order.payment_mode %><p>
+    
+    <h2>Transaction ID</h2>
+    <p><%= @order.transaction_id %><p>
+    
+    <h2>Shipping Address</h2>
+    <p><%= ShippingDetail.find(@order.shipping_details_id).address_line1 %><p>
+  </body>
+</html>

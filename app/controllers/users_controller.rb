@@ -1,50 +1,43 @@
 class UsersController < ApplicationController
 
-  before_action :logged_in_user, only: [:edit, :update, :show]
-  before_action only: [:edit, :update] do
-    authorize_user(:id)
-  end
-  before_action :get_user, only: [:show]
+  skip_before_action :logged_in_user, only: [:new, :create]
+  before_action :is_admin, only: [:edit, :update, :show] 
+  before_action :get_user, except: [:new, :create]
 
   def new
     @user = User.new
   end
 
-  def show
-  end
-
   def create
     @user = User.new(user_params)
-
     if @user.save
-      login @user
-      #to do: cart creation should be handled by create method of carts controller
+      SignUpMailer.welcome_email(@user).deliver_later
+      flash[:success] = "Signup Successful"
       @user.create_cart
+      login @user
     else
       flash.now[:danger] = @user.errors.full_messages.join(', ')
       render 'new'
     end
   end
 
-  def edit
-    @user = User.find(params[:id]) rescue nil 
+  def edit_profile
   end
 
-  def update
+  def update_profile
     if @user.update_attributes(update_params)
-      redirect_to @user
+      flash[:success] = "Profile Updated Successfully"
+      redirect_to root_url
     else
       flash.now[:danger] = @user.errors.full_messages.join(', ')
-      render 'edit'
+      render 'edit_profile'
     end
   end
 
-  def get_user
-    @user = User.find(params[:id]) rescue nil 
-  end
-  
   private
-
+  def get_user
+    @user = current_user
+  end
 
   def user_params
     params.require(:user).permit(:email, :password)

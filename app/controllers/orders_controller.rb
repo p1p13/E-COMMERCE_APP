@@ -1,49 +1,47 @@
 require 'securerandom'
-
 class OrdersController < ApplicationController
 
   def new
-    @cart = Cart.find(params[:cart_id]) rescue nil
-    @user = User.find(params[:user_id]) rescue nil
   end
 
   def create
-    @user = User.find(params[:user_id])
-    #to do: payment method to be added 
-    @order = @user.orders.create(order_params) 
-    params[:order_items] = {}
-    @cart = @user.cart rescue nil
+    @order = current_user.orders.create(order_params) 
+    @cart = current_user.cart 
     net_cost = 0
-    if @order.save
-      #to do: order item creation should be handled by create method of order_items controller
-
-      @cart.cart_items.each do |cart_item|
-        net_cost += cart_item.product.cost * cart_item.quantity 
-        params[:order_items][:product_id] = cart_item.product_id
-        params[:order_items][:quantity] = cart_item.quantity
-        cart_item.destroy
-        @order_item = @order.order_items.create(order_item_params)
+    begin
+      Order.transaction do
+        if @order.save!      
+          count = 0
+          @cart.cart_items.each do |cart_item|
+            count += 1
+            net_cost += cart_item.cost 
+            cart_item.destroy!
+            product = cart_item.product
+            stock_left = product.in_stock - cart_item.quantity
+            product.update_attributes!(in_stock: stock_left)
+            order_item_params = { product_id: cart_item.product_id, quantity: cart_item.quantity }
+            @order_item = @order.order_items.create!(order_item_params)
+          end
+          if count == 0
+            raise 'your cart is empty'
+          end
+          @order.update_attributes!(transaction_id: SecureRandom.hex(10), net_cost: net_cost, status: "Order Recieved")
+          redirect_to order_path(@order)
+          OrderMailer.order_email(@order).deliver_later
+        end 
       end
-      @order.update(transaction_id: SecureRandom.hex(10), net_cost: net_cost)
-      redirect_to user_order_path(@user, @order)
-    else
-      flash.now[:danger] = @order.errors.full_messages.join(', ')
+    rescue Exception => e
+      flash.now[:danger] = e.message
       render 'new'
-    end
+    end   
   end
 
   def show
-    @order = Order.last
+    @order = current_user.orders.last
   end
 
   private
   def order_params
     params.require(:order).permit(:net_cost, :payment_mode, :shipping_details_id)
   end
-
-  private
-  def order_item_params()
-    params.require(:order_items).permit(:product_id, :quantity)
-  end
-
 end

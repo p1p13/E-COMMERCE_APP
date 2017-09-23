@@ -1,5 +1,4 @@
 <h1>PRODUCTS AVAILABLE</h1>
- 
 <table>
   <tr>
     <th>Title</th>
@@ -7,7 +6,6 @@
     <th>In Stock</th>
     <th>Cost</th>
   </tr>
- 
   <% @products.each do |product| %>
     <tr>
       <td><%= product.title %></td>
@@ -15,7 +13,13 @@
       <td><%= product.in_stock %></td>
       <td><%= product.cost %></td>
       <td><%= link_to 'Show', product_path(product) %></td>
-      <td><%= link_to 'Add to Cart', :controller => :cart_items, :action => :new, :product_id => product.id %></td>
+      <% if logged_in? && product.in_stock>0 %>
+        <td><%= button_to 'Add to Cart', add_to_cart_cart_index_path(product_id: product.id) %></td>
+      <% end %>
+      <% if logged_in? && current_user.admin? %>
+         <td><%= link_to "Modify", edit_product_path(product) %></td>
+         <td><%= button_to "delete", { controller => :products,:action => 'destroy', :id => product.id }, :method => :delete %></td>
+      <% end %>
     </tr>
   <% end %>
 </table>

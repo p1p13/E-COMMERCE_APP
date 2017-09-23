@@ -1,5 +1,4 @@
 <h1>Your Order Recieved</h1>
-
 <table>
   <tr>
     <th>Title</th>
@@ -11,13 +10,16 @@
     <tr>
       <td><%= order_item.product.title %></td>
       <td><%= order_item.quantity %></td>
-      <td><%= order_item.product.cost %></td>
+      <td><%= order_item.product.cost * order_item.quantity %></td>
     </tr>
   <% end %>
 </table>
 
 <h2>Net Cost</h2>
 <p><%= @order.net_cost %><p>
+
+<h2>Status</h2>
+<p><%= @order.status %><p>
 
 <h2>Payment Mode</h2>
 <p><%= @order.payment_mode %><p>
