@@ -6,6 +6,7 @@ RSpec.describe UsersController do
       post :create, params: { user: FactoryGirl.attributes_for(:dummy_user2) }
     end
   end
+
   describe "GET #new", :skip_before  do
     it "renders the new view  " do
       get :new
@@ -15,14 +16,19 @@ RSpec.describe UsersController do
 
   describe "POST #create" , :skip_before do
     context "with valid attributes" do
-      it "creates a new user and doesn't create duplicate user" do
+      it "creates a new user" do
         expect{
           post :create, params: { user: FactoryGirl.attributes_for(:user) }
         }.to change(User,:count).by(1)
+      end
+
+      it "doesn't create duplicate user" do
+        post :create, params: { user: FactoryGirl.attributes_for(:user) }
         expect{
           post :create, params: { user: FactoryGirl.attributes_for(:user) }
         }.to_not change(User,:count)
       end
+
 
       it "redirects to profile page" do
         post :create, params: { user: FactoryGirl.attributes_for(:user) }
@@ -37,7 +43,7 @@ RSpec.describe UsersController do
         }.to_not change(User,:count)
       end
 
-      it "redirects to profile page" do
+      it "redirects to signup page" do
         post :create, params: { user: FactoryGirl.attributes_for(:invalid_user) }
         response.should render_template :new
       end
@@ -93,10 +99,23 @@ RSpec.describe UsersController do
     before(:each) do
       User.last.toggle!(:admin)
     end
-    it "allows the admin to delete users" do
-      expect{
-        delete :destroy, params: {id: User.first.id}
-      }.to change(User, :count).by(-1)
+    context "with valid id" do
+      it "allows the admin to delete users" do
+        expect{
+          delete :destroy, params: {id: User.first.id}
+        }.to change(User, :count).by(-1)
+      end
+    end
+    context "with invalid id" do
+      it "doesn't change user count" do
+        expect{
+          delete :destroy, params: {id: -1}
+        }.to change(User, :count).by(0)
+      end
+      it "gives error message" do
+        delete :destroy, params: {id: -1}
+        expect(flash[:error]).to eq("No user found")
+      end
     end
   end
 end
