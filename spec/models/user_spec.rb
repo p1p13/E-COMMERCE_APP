@@ -31,4 +31,16 @@ describe User do
     user = FactoryGirl.create(:valid_user)
     user.password.should == FactoryGirl.attributes_for(:valid_user)[:password]
   end
+  it "should have many shipping details" do
+    t = User.reflect_on_association(:shipping_details)
+    expect(t.macro).to eq(:has_many)
+  end
+  it "should have many orders" do
+    t = User.reflect_on_association(:orders)
+    expect(t.macro).to eq(:has_many)
+  end
+  it "should have one cart" do
+    t = User.reflect_on_association(:cart)
+    expect(t.macro).to eq(:has_one)
+  end
 end
