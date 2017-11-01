@@ -14,19 +14,21 @@
   <% end %>
 </table>
 <%= form_with(model: [ current_user.orders.build ], local:true) do |f| %>
-  <p>
-    <%= f.label :payment_mode, "Payment Mode" %>
-    <%= f.text_field :payment_mode %>
-  </p>
+  <article>
+    <% if flash[:error].present? %>
+      <div id="error_explanation">
+        <p><%= flash[:error] %></p>
+      </div>
+    <% end %>
+  </article>
 
-  <p>
-  <%= f.label :shipping_details_id, "Select Shipping Address" %>
-  <%= f.collection_select :shipping_details_id, current_user.shipping_details, :id, :address_line1, :prompt => true %>
-  </p>
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+    data-description="A month's subscription"
+    data-amount="500"
+    data-locale="auto">
+  </script>
+ <% end %>
 
-  <p>
-    <%= f.submit "Confirm" %>
-  </p>
-<% end %>
 
 

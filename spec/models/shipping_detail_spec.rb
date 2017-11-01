@@ -1,6 +1,4 @@
 require 'rails_helper'  
-
-
 describe ShippingDetail do
   before(:each) do |example|
     unless example.metadata[:skip_before]

@@ -5,11 +5,12 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 #for testing
+gem 'rails_12factor', group: :production
 group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
 end 
-
+gem 'stripe'
 gem 'rails-controller-testing'
 
 #for adding images to products
@@ -64,3 +65,4 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+ruby "2.4.1"

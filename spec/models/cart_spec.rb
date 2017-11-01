@@ -1,5 +1,4 @@
 require 'rails_helper'  
-
 describe Cart do
   it "should have many cart items" do
     t = Cart.reflect_on_association(:cart_items)
