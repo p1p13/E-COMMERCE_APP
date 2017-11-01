@@ -5,7 +5,6 @@ class OrdersController < ApplicationController
   end
 
   def create
-    binding.pry
     cart = current_user.cart 
     if cart.cart_items.empty?
       flash[:danger] = "your cart is empty"
@@ -19,16 +18,9 @@ class OrdersController < ApplicationController
         @order.order_items.build(order_item_params)
       end
       begin
-        customer = Stripe::Customer.create(
-          :email => params[:stripeEmail],
-          :source => params[:stripeToken]
-        )
-        charge = Stripe::Charge.create(
-          :customer => customer.id,
-          :amount => net_cost.to_i,
-          :description => 'Rails Stripe customer',
-          :currency    => 'usd'
-        )
+        payment_service = PaymentService.new
+        customer = payment_service.create_customer(params[:stripeEmail], params[:stripeToken])
+        payment_service.create_charge(customer.id, net_cost.to_i)
       rescue Stripe::CardError => e
         flash[:error] = e.message
         redirect_to new_order_path
